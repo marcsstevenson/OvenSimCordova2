@@ -17,6 +17,7 @@ bld/
 [Oo]bj/
 plugins/
 platforms/
+merges/
 
 # Roslyn cache directories
 *.ide/
