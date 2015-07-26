@@ -3,8 +3,24 @@
 function Timers(self) {
     var blinkInterval = 300;
 
+    //Global timer control - start
+
+    self.SetIntervalWrapper = function (onTickFunction, interval) {
+        if (self.TimersEnabled !== true) return 0;
+
+        return setInterval(onTickFunction, interval);
+    };
+
+    self.ClearIntervalWrapper = function (timerId) {
+        if (self.TimersEnabled !== true) return;
+
+        clearInterval(timerId);
+    };
+
+    //Global timer control - end
+
     //***Steam - Start
-    
+
     //SteamShot
 
     self.SteamShotModeTimerId = 1;
@@ -13,12 +29,12 @@ function Timers(self) {
 
     self.ClearSteamShotModeTimer = function () {
         if (self.SteamShotModeTimerId !== 1)
-            clearInterval(self.SteamShotModeTimerId);
+            self.ClearIntervalWrapper(self.SteamShotModeTimerId);
     };
 
     self.StartSteamShotModeIntervalTimer = function () {
         self.ClearSteamShotModeTimer(); //Stop the timer
-        self.SteamShotModeTimerId = setInterval(function () { self.NextSteamShotModeInterval(); }, self.SteamShotModeOffInterval);
+        self.SteamShotModeTimerId = self.SetIntervalWrapper(function () { self.NextSteamShotModeInterval(); }, self.SteamShotModeOffInterval);
         self.SteamShooting(true);
     };
 
@@ -29,7 +45,7 @@ function Timers(self) {
     };
 
     //*** Steam - End
-    
+
     //***TempDisplay - Start
 
     self.TempDisplayTimerId = 3;
@@ -38,22 +54,23 @@ function Timers(self) {
 
     self.ClearTempDisplayTimer = function () {
         if (self.TempDisplayTimerId !== 3)
-            clearInterval(self.TempDisplayTimerId);
+            self.ClearIntervalWrapper(self.TempDisplayTimerId);
     };
 
     self.StartTempDisplayIntervalTimer = function () {
         self.ClearTempDisplayTimer(); //Stop the timer
-        self.TempDisplayTimerId = setInterval(function () { self.NextTempDisplayInterval(); }, self.TempDisplayInterval);
+
+        self.TempDisplayTimerId = self.SetIntervalWrapper(self.NextTempDisplayInterval, self.TempDisplayInterval);
     };
 
     self.NextTempDisplayInterval = function () {
         self.IsWaitingForTempDisplayInterval = false; //Always reset this
-        
+        self.ClearTempDisplayTimer();
         self.StopDisplayingActualTemperature(); //TempDisplay off the oven
     };
 
     //***TempDisplay - End
-    
+
     //Countdown
 
     self.TimerCountdownTimerId = 7;
@@ -61,15 +78,15 @@ function Timers(self) {
     self.TimerCountdownInterval = 1000; //ms
 
     self.ClearTimerCountdownTimer = function () {
-        if (self.TimerCountdownTimerId !== 7)
-            clearInterval(self.TimerCountdownTimerId);
+        self.ClearIntervalWrapper(self.TimerCountdownTimerId);
     };
 
     self.StartTimerCountdownIntervalTimer = function () {
         self.ClearTimerCountdownTimer(); //Stop the timer
-
+        //return;
         var interval = self.TimerCountdownInterval / self.TimeDilation();
-        self.TimerCountdownTimerId = setInterval(function () { self.NextTimerCountdownInterval(); }, interval); //
+
+        self.TimerCountdownTimerId = self.SetIntervalWrapper(function () { self.NextTimerCountdownInterval(); }, interval); //
     };
 
     self.NextTimerCountdownInterval = function () {
@@ -82,7 +99,7 @@ function Timers(self) {
 
         self.SetTimerTimerNextValue();
     };
-    
+
     //*** Timer - End
 
     //*** Status Values
@@ -92,12 +109,12 @@ function Timers(self) {
     self.SetIntervalHeatingTimer = function () {
         self.ClearHeatingTimer();
 
-        self.HeatingTimerId = setInterval(function () { self.NextHeatingInterval(); }, 50);
+        self.HeatingTimerId = self.SetIntervalWrapper(function () { self.NextHeatingInterval(); }, 50);
     };
 
     self.ClearHeatingTimer = function () {
         if (self.HeatingTimerId !== 0)
-            clearInterval(self.HeatingTimerId);
+            self.ClearIntervalWrapper(self.HeatingTimerId);
     };
 
     self.StartIntervalHeatingTimer = function () {
@@ -118,19 +135,19 @@ function Timers(self) {
 
     self.ClearCoreTemperatureModeBlinkTimer = function () {
         if (self.CoreTemperatureModeBlinkTimerId !== 9)
-            clearInterval(self.CoreTemperatureModeBlinkTimerId);
+            self.ClearIntervalWrapper(self.CoreTemperatureModeBlinkTimerId);
     };
 
     self.StartCoreTemperatureModeBlinkIntervalTimer = function () {
         self.ClearCoreTemperatureModeBlinkTimer(); //Stop the timer
-        self.CoreTemperatureModeBlinkTimerId = setInterval(function () { self.NextCoreTemperatureModeBlinkInterval(); }, self.CoreTemperatureModeBlinkOffInterval);
+        self.CoreTemperatureModeBlinkTimerId = self.SetIntervalWrapper(function () { self.NextCoreTemperatureModeBlinkInterval(); }, self.CoreTemperatureModeBlinkOffInterval);
     };
 
     self.NextCoreTemperatureModeBlinkInterval = function () {
         self.TargetCoreTemperatureBlinkOn(!self.TargetCoreTemperatureBlinkOn());
-        
+
         //Set the based on every 2nd on blink
-        
+
         self.TargetCoreTemperatureAlternate(coreTemperatureModeBlinkCount == 0);
 
         coreTemperatureModeBlinkCount++;
@@ -146,12 +163,12 @@ function Timers(self) {
 
     self.ClearCoreTemperatureDisplayTimer = function () {
         if (self.CoreTemperatureDisplayTimerId !== 10)
-            clearInterval(self.CoreTemperatureDisplayTimerId);
+            self.ClearIntervalWrapper(self.CoreTemperatureDisplayTimerId);
     };
 
     self.StartCoreTemperatureDisplayIntervalTimer = function () {
         self.ClearCoreTemperatureDisplayTimer(); //Stop the timer
-        self.CoreTemperatureDisplayTimerId = setInterval(function () { self.NextCoreTemperatureDisplayInterval(); }, self.CoreTemperatureDisplayInterval);
+        self.CoreTemperatureDisplayTimerId = self.SetIntervalWrapper(function () { self.NextCoreTemperatureDisplayInterval(); }, self.CoreTemperatureDisplayInterval);
     };
 
     self.NextCoreTemperatureDisplayInterval = function () {
@@ -166,10 +183,10 @@ function Timers(self) {
 
     self.MasterBlinkTimerId = 100;
     self.MasterBlinkOffInterval = blinkInterval; //ms - this is used to turn the oven off
-    
+
     self.StartMasterBlinkIntervalTimer = function () {
         //console.log('here');
-        self.MasterBlinkTimerId = setInterval(function () { self.NextMasterBlinkInterval(); }, self.MasterBlinkOffInterval);
+        self.MasterBlinkTimerId = self.SetIntervalWrapper(function () { self.NextMasterBlinkInterval(); }, self.MasterBlinkOffInterval);
     };
 
     self.NextMasterBlinkInterval = function () {

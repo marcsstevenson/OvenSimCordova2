@@ -141,6 +141,7 @@ function StatusProperties(self, defaultIsCelcius) {
         self.CoreTemperatureCookingStarted(false);
 
         self.SetDefaults_Timer();
+        self.ClearHeatingTimer();
 
         self.MoistureModeOn(false);
         self.DisplayingMoistureSetup(false);
@@ -198,7 +199,6 @@ function StatusProperties(self, defaultIsCelcius) {
         self.ClearSteamShotModeTimer();
         self.ClearTempDisplayTimer();
         self.ClearTimerCountdownTimer();
-        self.ClearHeatingTimer();
         self.ClearCoreTemperatureModeBlinkTimer();
         self.ClearCoreTemperatureDisplayTimer();
     };

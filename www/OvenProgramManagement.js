@@ -309,6 +309,7 @@ function OvenProgramManagement(self) {
     };
 
     self.ChangeDisplayProgramStage = function (delta) {
+        var currentIndex = self.EditingOvenProgramStageIndex();
         var newIndex = self.EditingOvenProgramStageIndex() + delta;
         
         if (newIndex < 0) return; //It doesn't loop
@@ -322,7 +323,7 @@ function OvenProgramManagement(self) {
         if (newIndex > lastOnProgramStage.Index() + 1) return; //We cannot move one past the last on stage
 
         //We cannot move past the lastOnProgramStage if it has a timer set to INF
-        if (delta === 1 && lastOnProgramStage.TimerIsSetToInfinite()) {
+        if (lastOnProgramStage.Index() === currentIndex && delta === 1 && lastOnProgramStage.TimerIsSetToInfinite()) {
             alert("The current stage is set to an unlimited cook time (InF) - so there cannot be a next stage");
 
             return;

@@ -9,11 +9,12 @@
 /// <reference path="TimerManagement.js" />
 /// <reference path="OvenProgramManagement.js" />
 
-function OvenViewModel(soundEnabled, blinkingEnabled, defaultIsCelcius) {
+function OvenViewModel(soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled) {
     var self = this;
 
     self.SoundEnabled = soundEnabled;
     self.BlinkingEnabled = blinkingEnabled;
+    self.TimersEnabled = timersEnabled;
 
     //Expand from external files
     Timers(self);

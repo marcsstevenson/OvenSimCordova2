@@ -166,6 +166,51 @@ window.OvenScripts = (function () {
             //Display home
             ovenViewModel.ProgramTap();
         },
+        Setup1StageProgram_150WithInfiniteTime_BackToHome: function (ovenViewModel) {
+            //Setup all three stages of a program
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTapHold();
+            ovenViewModel.ProgramTap();
+
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_MinusClickFunction()(); //Decrease the timer
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+
+            //Back to Display Program
+            ovenViewModel.ProgramTapHold();
+            //Back home
+            ovenViewModel.ProgramTap();
+        },
+        Setup2StageProgram_WithSecondStageInfiniteTime_BackToHome: function (ovenViewModel) {
+            //Setup all three stages of a program
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTapHold();
+            ovenViewModel.ProgramTap();
+
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_PlusClickFunction()(); //Increase the timer
+
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Temp_PlusClickFunction()(); //Next Stage
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_MinusClickFunction()(); //Decrease the timer
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+
+            //Back to Display Program
+            ovenViewModel.ProgramTapHold();
+            //Back home
+            ovenViewModel.ProgramTap();
+        },
         DisplayProgram1: function (ovenViewModel) {
             //Display program
             ovenViewModel.ProgramTap();

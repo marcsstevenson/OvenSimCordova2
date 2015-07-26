@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="moffat.myapp81c1f926cac94696b43394fe722cb032" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="moffat.myapp81c1f926cac94696b43394fe722cb032" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
   <name>Moffat Simulator</name>
   <description>This is a simulation of the Moffat Oven E32D4</description>
   <author href="http://cordova.io" email="dev@cordova.apache.org">Marc Stevenson</author>

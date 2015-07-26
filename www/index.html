@@ -37,7 +37,7 @@
                 soundOn = false;
             }
 
-            var ovenViewModel = new OvenViewModel(soundOn, true, true); //soundEnabled, blinkingEnabled, defaultIsCelcius
+            var ovenViewModel = new OvenViewModel(soundOn, true, true, true); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled
             ko.applyBindings(ovenViewModel);
 
             //ovenViewModel.SoundEnabled = false;
@@ -45,13 +45,14 @@
             //Testing code
             if (isTesting) {
                 ovenViewModel.TurnOvenOn();
-                OvenScripts.Setup3StageProgram_All150WithTime12and3Minutes_BackToHome(ovenViewModel);
+                OvenScripts.Setup2StageProgram_WithSecondStageInfiniteTime_BackToHome(ovenViewModel);
                 ovenViewModel.ProgramButtonTap();
 
                 //ovenViewModel.btnTimer_PlusButtonDown(); //Increase timer
                 //ovenViewModel.btnTimer_PlusButtonUp();
 
                 OvenScripts.SetActualTemperatureToTarget(ovenViewModel);
+                ovenViewModel.TimerButtonTap();
             }
 
             //new OvenScripts().SetProgram1_1TempToCP(ovenViewModel);
