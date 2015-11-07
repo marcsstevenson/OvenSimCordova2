@@ -31,13 +31,15 @@
         $(document).ready(function () {
 
             var isTesting = getParameterByName("Testing") === "true";
+            var displayLogging = true; //Change to false for devices
             var soundOn = true;
             if (isTesting) {
                 //This is just annoying during testing
                 soundOn = false;
+                displayLogging = true;
             }
 
-            var ovenViewModel = new OvenViewModel(soundOn, true, true, true); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled
+            var ovenViewModel = new OvenViewModel(soundOn, true, true, true, displayLogging); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled, displayLogging
             ko.applyBindings(ovenViewModel);
 
             //ovenViewModel.SoundEnabled = false;
@@ -45,20 +47,23 @@
             //Testing code
             if (isTesting) {
                 ovenViewModel.TurnOvenOn();
-                OvenScripts.Setup2StageProgram_WithSecondStageInfiniteTime_BackToHome(ovenViewModel);
-                ovenViewModel.ProgramButtonTap();
+                //OvenScripts.StartTimerSet1SecondBeforeEnd(ovenViewModel);
 
-                //ovenViewModel.btnTimer_PlusButtonDown(); //Increase timer
-                //ovenViewModel.btnTimer_PlusButtonUp();
-
+                OvenScripts.Setup2StageProgram_WithAlarm_BackToHome(ovenViewModel);
+                
                 OvenScripts.SetActualTemperatureToTarget(ovenViewModel);
-                ovenViewModel.TimerButtonTap();
+
+                ovenViewModel.ProgramButtonTap();
+                ovenViewModel.StartRunningProgram();
+
+                OvenScripts.SetDisplayProgramStageTimerSet1SecondBeforeEnd(ovenViewModel);
             }
 
-            //new OvenScripts().SetProgram1_1TempToCP(ovenViewModel);
+            //OvenScripts.SetProgram1_1TempToCP(ovenViewModel);
             //ovenViewModel.Test();
             //OvenScripts.Setup3StageProgram_All150WithTime_BackToHome(ovenViewModel);
             //OvenScripts.SelectProgram1PreHeatAndStart(ovenViewModel);
+
             //OvenScripts.StartTimerSet1SecondBeforeEnd(ovenViewModel);
 
             //Testing
@@ -203,10 +208,10 @@
             <button data-bind="click: IncreaseTimeDilation">faster</button>
         </div>
 
-        <div style="padding-bottom: 5px">
+        <!--<div style="padding-bottom: 5px">
             <span>Client Height:</span>
             <span class="btn" data-bind="text: ClientHeight"></span>
-        </div>
+        </div>-->
 
         <div style="padding-bottom: 5px" data-bind="if: DisplayingProgram">
             <span>Total Time Remaining:</span>
@@ -218,9 +223,9 @@
 
         <!--        <button data-bind="click: Test">Test</button>-->
 
-        <div style="padding-bottom: 5px">
+        <!--<div style="padding-bottom: 5px">
             <button data-bind="click: Beep">Beep Test</button>
-        </div>
+        </div>-->
 
         <div style="padding-bottom: 5px">
             <button data-bind="visible: !UseSmallClient(), click: UseSmallClientToggle">Use Small Display</button>
@@ -243,6 +248,15 @@
                     <div style="margin-left: 20px" data-bind="text: 'TargetCoreTemperature: ' + TargetCoreTemperature()"></div>
                     <div style="margin-left: 20px" data-bind="text: 'TimerStartValue: ' + TimerStartValue()"></div>
                     <div style="margin-left: 20px" data-bind="text: 'TimerCurrentValue: ' + ConvertDurtaionToDisplay(TimerCurrentValue())"></div>
+                </div>
+            </div>
+        </div>
+        <!--Logging-->
+        <div data-bind="if: DisplayLogging">
+            <h2 class="digial">Logging</h2>
+            <div style="height: 300px; width: 100%; overflow: scroll">
+                <div data-bind="foreach: LogEntries">
+                    <div data-bind="text: $data"></div>
                 </div>
             </div>
         </div>

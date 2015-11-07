@@ -31,13 +31,15 @@
         $(document).ready(function () {
 
             var isTesting = getParameterByName("Testing") === "true";
+            var displayLogging = true; //Change to false for devices
             var soundOn = true;
             if (isTesting) {
                 //This is just annoying during testing
                 soundOn = false;
+                displayLogging = true;
             }
 
-            var ovenViewModel = new OvenViewModel(soundOn, true, true, true); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled
+            var ovenViewModel = new OvenViewModel(soundOn, true, true, true, displayLogging); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled, displayLogging
             ko.applyBindings(ovenViewModel);
 
             //ovenViewModel.SoundEnabled = false;
@@ -246,6 +248,15 @@
                     <div style="margin-left: 20px" data-bind="text: 'TargetCoreTemperature: ' + TargetCoreTemperature()"></div>
                     <div style="margin-left: 20px" data-bind="text: 'TimerStartValue: ' + TimerStartValue()"></div>
                     <div style="margin-left: 20px" data-bind="text: 'TimerCurrentValue: ' + ConvertDurtaionToDisplay(TimerCurrentValue())"></div>
+                </div>
+            </div>
+        </div>
+        <!--Logging-->
+        <div data-bind="if: DisplayLogging">
+            <h2 class="digial">Logging</h2>
+            <div style="height: 300px; width: 100%; overflow: scroll">
+                <div data-bind="foreach: LogEntries">
+                    <div data-bind="text: $data"></div>
                 </div>
             </div>
         </div>

@@ -211,6 +211,34 @@ window.OvenScripts = (function () {
             //Back home
             ovenViewModel.ProgramTap();
         },
+        Setup2StageProgram_WithAlarm_BackToHome: function (ovenViewModel) {
+            //Setup all three stages of a program
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTapHold();
+            ovenViewModel.ProgramTap();
+
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_PlusClickFunction()(); //Increase the timer
+
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_PlusClickFunction()(); //Alarm on
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Temp_PlusClickFunction()(); //Next Stage
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.Timer_MinusClickFunction()(); //Decrease the timer
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+            ovenViewModel.ProgramTap();
+
+            //Back to Display Program
+            ovenViewModel.ProgramTapHold();
+            //Back home
+            ovenViewModel.ProgramTap();
+        },
         DisplayProgram1: function (ovenViewModel) {
             //Display program
             ovenViewModel.ProgramTap();
@@ -242,6 +270,10 @@ window.OvenScripts = (function () {
             ovenViewModel.btnTimer_PlusButtonUp();
             ovenViewModel.TimerButtonTap(); //Start timer
 
+            var duration = moment.duration(1, 'seconds');
+            ovenViewModel.DisplayingProgramStage().TimerCurrentValue(duration);
+        },
+        SetDisplayProgramStageTimerSet1SecondBeforeEnd: function (ovenViewModel) {
             var duration = moment.duration(1, 'seconds');
             ovenViewModel.DisplayingProgramStage().TimerCurrentValue(duration);
         },

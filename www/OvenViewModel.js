@@ -9,12 +9,14 @@
 /// <reference path="TimerManagement.js" />
 /// <reference path="OvenProgramManagement.js" />
 
-function OvenViewModel(soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled) {
+function OvenViewModel(soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled, displayLogging) {
     var self = this;
 
     self.SoundEnabled = soundEnabled;
     self.BlinkingEnabled = blinkingEnabled;
     self.TimersEnabled = timersEnabled;
+    self.LogEntries = ko.observableArray();
+    self.DisplayLogging = displayLogging;
 
     //Expand from external files
     Timers(self);
@@ -56,8 +58,8 @@ function OvenViewModel(soundEnabled, blinkingEnabled, defaultIsCelcius, timersEn
     };
     
     self.Log = function (entry) {
-
-
+        if (self.DisplayLogging)
+            self.LogEntries.push(entry);
     };
     
     //Set defaults

@@ -39,6 +39,8 @@ function Timers(self) {
     };
 
     self.NextSteamShotModeInterval = function () {
+        self.Log("NextSteamShotModeInterval");
+
         self.IsWaitingForSteamShotModeOffInterval = false; //Always reset this
         self.ClearSteamShotModeTimer(); //Stop the timer
         self.SteamShooting(false);
@@ -64,6 +66,8 @@ function Timers(self) {
     };
 
     self.NextTempDisplayInterval = function () {
+        self.Log("NextTempDisplayInterval");
+
         self.IsWaitingForTempDisplayInterval = false; //Always reset this
         self.ClearTempDisplayTimer();
         self.StopDisplayingActualTemperature(); //TempDisplay off the oven
