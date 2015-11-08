@@ -29,6 +29,7 @@
 
     <script>
         $(document).ready(function () {
+            var ovenViewModel;
 
             var isTesting = getParameterByName("Testing") === "true";
             var displayLogging = true; //Change to false for devices
@@ -39,7 +40,7 @@
                 displayLogging = true;
             }
 
-            var ovenViewModel = new OvenViewModel(soundOn, true, true, true, displayLogging); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled, displayLogging
+            ovenViewModel = new OvenViewModel(soundOn, true, true, true, displayLogging); //soundEnabled, blinkingEnabled, defaultIsCelcius, timersEnabled, displayLogging
             ko.applyBindings(ovenViewModel);
 
             //ovenViewModel.SoundEnabled = false;
@@ -50,7 +51,7 @@
                 //OvenScripts.StartTimerSet1SecondBeforeEnd(ovenViewModel);
 
                 OvenScripts.Setup2StageProgram_WithAlarm_BackToHome(ovenViewModel);
-                
+
                 OvenScripts.SetActualTemperatureToTarget(ovenViewModel);
 
                 ovenViewModel.ProgramButtonTap();
@@ -222,7 +223,6 @@
         </div>
 
         <!--        <button data-bind="click: Test">Test</button>-->
-
         <!--<div style="padding-bottom: 5px">
             <button data-bind="click: Beep">Beep Test</button>
         </div>-->
@@ -284,9 +284,9 @@
         <div class="btnTemp_Plus" style="display: none; width: 46px; height: 46px"></div>
         <div class="btnTimer_Minus" style="display: none; width: 46px; height: 46px"></div>
         <div class="btnTimer_Plus" style="display: none; width: 46px; height: 46px"></div>
-        <div class="dial" style="display: none; width: 46px; height: 46px"></div>        
+        <div class="dial" style="display: none; width: 46px; height: 46px"></div>
     </div>
-    
+
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>

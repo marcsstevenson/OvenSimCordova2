@@ -250,7 +250,7 @@ function UserInterface(self) {
 
     self.ActualTemperatureRounded = ko.computed(function () {
         //Round the value
-        return 2;
+        //2015.11.08 Not
         return Math.round(self.ActualTemperature());
     });
 
